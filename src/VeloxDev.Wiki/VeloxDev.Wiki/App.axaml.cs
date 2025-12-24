@@ -1,11 +1,12 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
 using VeloxDev.Wiki.ViewModels;
 using VeloxDev.Wiki.Views;
+using VeloxDev.Core.DynamicTheme;
+using VeloxDev.Avalonia.PlatformAdapters;
 
 namespace VeloxDev.Wiki;
 
@@ -14,6 +15,7 @@ public partial class App : Application
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
+        ThemeManager.SetPlatformInterpolator(new Interpolator());
     }
 
     public override void OnFrameworkInitializationCompleted()

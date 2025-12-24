@@ -1,16 +1,66 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm="using:VeloxDev.Wiki.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="VeloxDev.Wiki.Views.MainView"
-             x:DataType="vm:MainViewModel">
-  <Design.DataContext>
-    <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-    <vm:MainViewModel />
-  </Design.DataContext>
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:local="using:VeloxDev.Wiki.Views"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:VeloxDev.Wiki.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="VeloxDev.Wiki.Views.MainView"
+			 x:DataType="vm:MainViewModel">
+	<Design.DataContext>
+		<vm:MainViewModel />
+	</Design.DataContext>
 
-  <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+	<Grid RowDefinitions="1*,Auto,15*"
+		  ColumnDefinitions="2*,Auto,8*" >
+
+		<!-- 基于 VeloxDev 实现主题色控制 -->
+		<local:GlobalStyle Name="GlobalStyle"/>
+
+		<!-- 背景板 -->
+		<Border Grid.RowSpan="3"
+		        Grid.ColumnSpan="3"
+		        Background="{Binding ElementName=GlobalStyle, Path=Background}"/>
+		
+		<!-- 分割线 -->
+		<GridSplitter Grid.Row="1"
+					  Grid.ColumnSpan="3"
+					  MinHeight="0"
+					  Height="1.5"
+					  Background="{Binding ElementName=GlobalStyle, Path=SplitterBrush}"/>
+		<GridSplitter Grid.Row="2"
+					  Grid.Column="1"
+					  MinWidth="0"
+					  Width="1.5"
+					  Background="{Binding ElementName=GlobalStyle, Path=SplitterBrush}"/>
+
+		<!-- 顶侧功能栏 -->
+		<Grid Grid.Row="0"
+		      Grid.ColumnSpan="3">
+			
+		</Grid>
+
+		<!-- 左侧导航栏 -->
+		<Grid Grid.Row="2"
+		      Grid.Column="0"
+			  ColumnDefinitions="15*,1*">
+
+			<!-- 内容列表 -->
+			<Grid Grid.Column="0">
+
+			</Grid>
+
+			<!-- 折叠按钮 -->
+			<Grid Grid.Column="0">
+
+			</Grid>
+		</Grid>
+
+		<!-- 右侧内容页 -->
+		<Grid Grid.Row="2"
+		      Grid.ColumnSpan="2">
+			
+		</Grid>
+	</Grid>
+
 </UserControl>

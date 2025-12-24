@@ -21,5 +21,11 @@
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="VeloxDev.Avalonia" />
+    <PackageReference Include="VeloxDev.Core.Generator" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ViewModels\WikiCOMs\" />
+    <Folder Include="Views\WikiCOMs\" />
   </ItemGroup>
 </Project>
