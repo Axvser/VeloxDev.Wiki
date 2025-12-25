@@ -1,17 +1,24 @@
-﻿using Avalonia;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Media;
 using VeloxDev.Avalonia.PlatformAdapters;
 using VeloxDev.Core.DynamicTheme;
+using VeloxDev.Core.MVVM;
 
 namespace VeloxDev.Wiki.Views
 {
     [ThemeConfig<ObjectConverter, Dark, Light>(nameof(Background), ["#1e1e1e"], ["#ffffff"])]
     [ThemeConfig<ObjectConverter, Dark, Light>(nameof(Foreground), ["#ffffff"], ["#1e1e1e"])]
-    [ThemeConfig<ObjectConverter, Dark, Light>(nameof(SplitterBrush), ["#6a6a6a"], ["#6a1e1e1e"])]
+    [ThemeConfig<ObjectConverter, Dark, Light>(nameof(SplitterBrush), ["#6a6a6a"], ["#661e1e1e"])]
     public partial class GlobalStyle : Control
     {
-        public GlobalStyle() => InitializeTheme();
+        public GlobalStyle()
+        {
+            IsVisible = false;
+            InitializeTheme();
+        }
 
         public static readonly StyledProperty<IBrush> BackgroundProperty =
             AvaloniaProperty.Register<GlobalStyle, IBrush>(nameof(Background), Brushes.Transparent);
@@ -38,6 +45,17 @@ namespace VeloxDev.Wiki.Views
         {
             get => this.GetValue(SplitterBrushProperty);
             set => SetValue(SplitterBrushProperty, value);
+        }
+    }
+
+    public partial class GlobalStyle
+    {
+        [VeloxCommand]
+        private static Task ToggleTheme(object parameters,CancellationToken ct)
+        {
+            if (ThemeManager.Current == typeof(Dark)) ThemeManager.Transition<Light>(TransitionEffects.Theme);
+            else ThemeManager.Transition<Dark>(TransitionEffects.Theme);
+            return Task.CompletedTask;
         }
     }
 }
