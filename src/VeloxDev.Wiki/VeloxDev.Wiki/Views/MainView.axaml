@@ -4,6 +4,7 @@
 			 xmlns:local="using:VeloxDev.Wiki.Views"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:vm="using:VeloxDev.Wiki.ViewModels"
+             xmlns:wiki="using:VeloxDev.Wiki"
 			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 			 x:Class="VeloxDev.Wiki.Views.MainView"
 			 x:DataType="vm:MainViewModel">
@@ -19,9 +20,9 @@
 
 		<!-- background board -->
 		<Border Grid.RowSpan="3"
-		        Grid.ColumnSpan="3"
-		        Background="{Binding ElementName=GlobalStyle, Path=Background}"/>
-		
+				Grid.ColumnSpan="3"
+				Background="{Binding ElementName=GlobalStyle, Path=Background}"/>
+
 		<!-- Splitter -->
 		<GridSplitter Grid.Row="1"
 					  Grid.ColumnSpan="3"
@@ -36,14 +37,14 @@
 
 		<!-- Top Function Bar -->
 		<Grid Grid.Row="0"
-		      Grid.ColumnSpan="3"
+			  Grid.ColumnSpan="3"
 			  ColumnDefinitions="1*,2*,5*,3*">
 			<!-- Title -->
 			<Grid Grid.Column="1">
 				<Viewbox>
 					<TextBlock Text="VeloxDev Wiki"
-						HorizontalAlignment="Left"
-						Foreground="{Binding ElementName=GlobalStyle, Path=Foreground}"/>
+							   HorizontalAlignment="Left"
+							   Foreground="{Binding ElementName=GlobalStyle, Path=Foreground}"/>
 				</Viewbox>
 			</Grid>
 			<Grid Grid.Column="3">
@@ -57,14 +58,17 @@
 
 		<!-- Left navigation bar -->
 		<Grid Grid.Row="2"
-		      Grid.Column="0">
-			  
+			  Grid.Column="0">
+
 		</Grid>
 
 		<!-- Right content page -->
 		<Grid Grid.Row="2"
-		      Grid.ColumnSpan="2">
-			
+			  Grid.Column="2">
+			<ScrollViewer HorizontalScrollBarVisibility="Auto"
+						  VerticalScrollBarVisibility="Auto">
+				<wiki:CodeView x:Name="CodeView"/>
+			</ScrollViewer>
 		</Grid>
 	</Grid>
 

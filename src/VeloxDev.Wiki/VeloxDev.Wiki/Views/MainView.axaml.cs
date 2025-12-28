@@ -1,4 +1,9 @@
 using Avalonia.Controls;
+using Avalonia.Controls.Documents;
+using Avalonia.Media;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using System.Collections.Generic;
 
 namespace VeloxDev.Wiki.Views;
 
@@ -7,5 +12,69 @@ public partial class MainView : UserControl
     public MainView()
     {
         InitializeComponent();
+        string code = $$"""
+                       using System.Threading;
+                       using System.Threading.Tasks;
+                       using Avalonia;
+                       using Avalonia.Controls;
+                       using Avalonia.Media;
+                       using VeloxDev.Avalonia.PlatformAdapters;
+                       using VeloxDev.Core.DynamicTheme;
+                       using VeloxDev.Core.MVVM;
+
+                       namespace VeloxDev.Wiki.Views
+                       {
+                           [ThemeConfig<ObjectConverter, Dark, Light>(nameof(Background), ["#1e1e1e"], ["#ffffff"])]
+                           [ThemeConfig<ObjectConverter, Dark, Light>(nameof(Foreground), ["#ffffff"], ["#1e1e1e"])]
+                           [ThemeConfig<ObjectConverter, Dark, Light>(nameof(SplitterBrush), ["#66ffffff"], ["#661e1e1e"])]
+                           public partial class GlobalStyle : Control
+                           {
+                               public GlobalStyle()
+                               {
+                                   IsVisible = false;
+                                   InitializeTheme();
+                               }
+
+                               public static readonly StyledProperty<IBrush> BackgroundProperty =
+                                   AvaloniaProperty.Register<GlobalStyle, IBrush>(nameof(Background), Brushes.Transparent);
+
+                               public IBrush Background
+                               {
+                                   get => this.GetValue(BackgroundProperty);
+                                   set => SetValue(BackgroundProperty, value);
+                               }
+
+                               public static readonly StyledProperty<IBrush> ForegroundProperty =
+                                   AvaloniaProperty.Register<GlobalStyle, IBrush>(nameof(Foreground), Brushes.Transparent);
+
+                               public IBrush Foreground
+                               {
+                                   get => this.GetValue(ForegroundProperty);
+                                   set => SetValue(ForegroundProperty, value);
+                               }
+
+                               public static readonly StyledProperty<IBrush> SplitterBrushProperty =
+                                   AvaloniaProperty.Register<GlobalStyle, IBrush>(nameof(SplitterBrush), Brushes.Transparent);
+
+                               public IBrush SplitterBrush
+                               {
+                                   get => this.GetValue(SplitterBrushProperty);
+                                   set => SetValue(SplitterBrushProperty, value);
+                               }
+                           }
+
+                           public partial class GlobalStyle
+                           {
+                               [VeloxCommand]
+                               private static Task ToggleTheme(object parameters,CancellationToken ct)
+                               {
+                                   if (ThemeManager.Current == typeof(Dark)) ThemeManager.Transition<Light>(TransitionEffects.Theme);
+                                   else ThemeManager.Transition<Dark>(TransitionEffects.Theme);
+                                   return Task.CompletedTask;
+                               }
+                           }
+                       }
+                       """;
+        CodeView.Code = code;
     }
 }

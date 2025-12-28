@@ -11,7 +11,7 @@ namespace VeloxDev.Wiki.Views
 {
     [ThemeConfig<ObjectConverter, Dark, Light>(nameof(Background), ["#1e1e1e"], ["#ffffff"])]
     [ThemeConfig<ObjectConverter, Dark, Light>(nameof(Foreground), ["#ffffff"], ["#1e1e1e"])]
-    [ThemeConfig<ObjectConverter, Dark, Light>(nameof(SplitterBrush), ["#6a6a6a"], ["#661e1e1e"])]
+    [ThemeConfig<ObjectConverter, Dark, Light>(nameof(SplitterBrush), ["#66ffffff"], ["#661e1e1e"])]
     public partial class GlobalStyle : Control
     {
         public GlobalStyle()

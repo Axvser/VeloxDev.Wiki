@@ -20,12 +20,8 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="VeloxDev.Avalonia" />
     <PackageReference Include="VeloxDev.Core.Generator" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ViewModels\WikiCOMs\" />
-    <Folder Include="Views\WikiCOMs\" />
   </ItemGroup>
 </Project>
