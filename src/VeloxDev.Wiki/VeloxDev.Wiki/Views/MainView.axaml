@@ -65,10 +65,9 @@
 		<!-- Right content page -->
 		<Grid Grid.Row="2"
 			  Grid.Column="2">
-			<ScrollViewer HorizontalScrollBarVisibility="Auto"
-						  VerticalScrollBarVisibility="Auto">
-				<wiki:CodeView x:Name="CodeView"/>
-			</ScrollViewer>
+			  <wiki:CodeView x:Name="CodeView"
+			  				 Background="{Binding ElementName=GlobalStyle, Path=Background}"
+							 Foreground="{Binding ElementName=GlobalStyle, Path=Foreground}"/>
 		</Grid>
 	</Grid>
 

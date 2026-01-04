@@ -13,68 +13,84 @@ public partial class MainView : UserControl
     {
         InitializeComponent();
         string code = $$"""
-                       using System.Threading;
-                       using System.Threading.Tasks;
-                       using Avalonia;
-                       using Avalonia.Controls;
-                       using Avalonia.Media;
-                       using VeloxDev.Avalonia.PlatformAdapters;
-                       using VeloxDev.Core.DynamicTheme;
-                       using VeloxDev.Core.MVVM;
+                        <UserControl xmlns="https://github.com/avaloniaui"
+                                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                    xmlns:local="using:VeloxDev.Wiki.Views"
+                                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                    xmlns:vm="using:VeloxDev.Wiki.ViewModels"
+                                    xmlns:wiki="using:VeloxDev.Wiki"
+                                    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+                                    x:Class="VeloxDev.Wiki.Views.MainView"
+                                    x:DataType="vm:MainViewModel">
+                            <Design.DataContext>
+                                <vm:MainViewModel />
+                            </Design.DataContext>
 
-                       namespace VeloxDev.Wiki.Views
-                       {
-                           [ThemeConfig<ObjectConverter, Dark, Light>(nameof(Background), ["#1e1e1e"], ["#ffffff"])]
-                           [ThemeConfig<ObjectConverter, Dark, Light>(nameof(Foreground), ["#ffffff"], ["#1e1e1e"])]
-                           [ThemeConfig<ObjectConverter, Dark, Light>(nameof(SplitterBrush), ["#66ffffff"], ["#661e1e1e"])]
-                           public partial class GlobalStyle : Control
-                           {
-                               public GlobalStyle()
-                               {
-                                   IsVisible = false;
-                                   InitializeTheme();
-                               }
+                            <Grid RowDefinitions="1*,Auto,15*"
+                                ColumnDefinitions="2*,Auto,8*" >
 
-                               public static readonly StyledProperty<IBrush> BackgroundProperty =
-                                   AvaloniaProperty.Register<GlobalStyle, IBrush>(nameof(Background), Brushes.Transparent);
+                                <!-- Theme color control based on VeloxDev -->
+                                <local:GlobalStyle Name="GlobalStyle"/>
 
-                               public IBrush Background
-                               {
-                                   get => this.GetValue(BackgroundProperty);
-                                   set => SetValue(BackgroundProperty, value);
-                               }
+                                <!-- background board -->
+                                <Border Grid.RowSpan="3"
+                                        Grid.ColumnSpan="3"
+                                        Background="{Binding ElementName=GlobalStyle, Path=Background}"/>
 
-                               public static readonly StyledProperty<IBrush> ForegroundProperty =
-                                   AvaloniaProperty.Register<GlobalStyle, IBrush>(nameof(Foreground), Brushes.Transparent);
+                                <!-- Splitter -->
+                                <GridSplitter Grid.Row="1"
+                                            Grid.ColumnSpan="3"
+                                            MinHeight="0"
+                                            Height="1.5"
+                                            Background="{Binding ElementName=GlobalStyle, Path=SplitterBrush}"/>
+                                <GridSplitter Grid.Row="2"
+                                            Grid.Column="1"
+                                            MinWidth="0"
+                                            Width="1.5"
+                                            Background="{Binding ElementName=GlobalStyle, Path=SplitterBrush}"/>
 
-                               public IBrush Foreground
-                               {
-                                   get => this.GetValue(ForegroundProperty);
-                                   set => SetValue(ForegroundProperty, value);
-                               }
+                                <!-- Top Function Bar -->
+                                <Grid Grid.Row="0"
+                                    Grid.ColumnSpan="3"
+                                    ColumnDefinitions="1*,2*,5*,3*">
+                                    <!-- Title -->
+                                    <Grid Grid.Column="1">
+                                        <Viewbox>
+                                            <TextBlock Text="VeloxDev Wiki"
+                                                    HorizontalAlignment="Left"
+                                                    Foreground="{Binding ElementName=GlobalStyle, Path=Foreground}"/>
+                                        </Viewbox>
+                                    </Grid>
+                                    <Grid Grid.Column="3">
+                                        <Viewbox>
+                                            <Button Content="Toggle Theme"
+                                                    Command="{Binding ElementName=GlobalStyle, Path=ToggleThemeCommand}"
+                                                    Foreground="{Binding ElementName=GlobalStyle, Path=Foreground}"/>
+                                        </Viewbox>
+                                    </Grid>
+                                </Grid>
 
-                               public static readonly StyledProperty<IBrush> SplitterBrushProperty =
-                                   AvaloniaProperty.Register<GlobalStyle, IBrush>(nameof(SplitterBrush), Brushes.Transparent);
+                                <!-- Left navigation bar -->
+                                <Grid Grid.Row="2"
+                                    Grid.Column="0">
 
-                               public IBrush SplitterBrush
-                               {
-                                   get => this.GetValue(SplitterBrushProperty);
-                                   set => SetValue(SplitterBrushProperty, value);
-                               }
-                           }
+                                </Grid>
 
-                           public partial class GlobalStyle
-                           {
-                               [VeloxCommand]
-                               private static Task ToggleTheme(object parameters,CancellationToken ct)
-                               {
-                                   if (ThemeManager.Current == typeof(Dark)) ThemeManager.Transition<Light>(TransitionEffects.Theme);
-                                   else ThemeManager.Transition<Dark>(TransitionEffects.Theme);
-                                   return Task.CompletedTask;
-                               }
-                           }
-                       }
+                                <!-- Right content page -->
+                                <Grid Grid.Row="2"
+                                    Grid.Column="2">
+                                    <wiki:CodeView x:Name="CodeView"
+                                                    Language="CSharp"
+                                                    Background="{Binding ElementName=GlobalStyle, Path=Background}"
+                                                    Foreground="{Binding ElementName=GlobalStyle, Path=Foreground}"/>
+                                </Grid>
+                            </Grid>
+
+                        </UserControl>
+
                        """;
         CodeView.Code = code;
+        CodeView.Language = ViewModels.WikiCOMs.CodeLanguage.XML;
     }
 }

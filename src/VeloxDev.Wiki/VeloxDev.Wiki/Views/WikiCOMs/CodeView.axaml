@@ -2,14 +2,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:VeloxDev.Wiki.ViewModels.WikiCOMs"
+             xmlns:local="using:VeloxDev.Wiki"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="VeloxDev.Wiki.CodeView">
-  <Grid>
-      <Viewbox>
-	      <TextBlock x:Name="CodeRender"
-			         xml:space="preserve"
-				     TextWrapping="NoWrap"
-				     Background="#1e1e1e"/>
+             x:Class="VeloxDev.Wiki.CodeView"
+             x:DataType="vm:CodeViewModel"
+             Code="{Binding Code}">
+  <Grid RowDefinitions="0.5*,9.5*"
+        Background="{Binding Background,RelativeSource={RelativeSource AncestorType=UserControl}}">
+    <Grid Grid.Row="0"
+          ColumnDefinitions="1*,1*">
+            <Grid Grid.Column="0">
+              <Viewbox HorizontalAlignment="Left"
+                       Margin="4">
+                <TextBlock Text="{Binding Language,RelativeSource={RelativeSource AncestorType=local:CodeView}}"
+                           Foreground="{Binding Foreground,RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+              </Viewbox>
+            </Grid>
+            <Grid Grid.Column="1">
+              <Viewbox HorizontalAlignment="Right">
+                <Button Content="Copy" 
+                        Click="CopyEventHandler"
+                        Foreground="{Binding Foreground,RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+              </Viewbox>
+            </Grid>
+    </Grid>
+    <Grid Grid.Row="1">
+      <Viewbox HorizontalAlignment="Left"
+               VerticalAlignment="Top">
+        <ScrollViewer MaxHeight="200"
+                      >
+          <SelectableTextBlock x:Name="CodeRender"
+                  xml:space="preserve"
+                  TextWrapping="NoWrap" />
+        </ScrollViewer>
       </Viewbox>
+    </Grid>
   </Grid>
 </UserControl>
