@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -51,10 +52,22 @@ namespace VeloxDev.Wiki.Views
     public partial class GlobalStyle
     {
         [VeloxCommand]
-        private static Task ToggleTheme(object parameters,CancellationToken ct)
+        private static Task ToggleTheme(object parameters, CancellationToken ct)
         {
-            if (ThemeManager.Current == typeof(Dark)) ThemeManager.Transition<Light>(TransitionEffects.Theme);
-            else ThemeManager.Transition<Dark>(TransitionEffects.Theme);
+            if (OperatingSystem.IsBrowser())
+            {
+                if (ThemeManager.Current == typeof(Dark)) 
+                    ThemeManager.Jump<Light>();
+                else 
+                    ThemeManager.Jump<Dark>();
+            }
+            else
+            {
+                if (ThemeManager.Current == typeof(Dark)) 
+                    ThemeManager.Transition<Light>(TransitionEffects.Theme);
+                else 
+                    ThemeManager.Transition<Dark>(TransitionEffects.Theme);
+            }          
             return Task.CompletedTask;
         }
     }
